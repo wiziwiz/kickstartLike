@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: None
+
 pragma solidity ^0.8.9;
 
-import "./CloneFactory.sol";
+import "./lib/CloneFactory.sol";
 
 contract CompainFactory is CloneFactory
 {
