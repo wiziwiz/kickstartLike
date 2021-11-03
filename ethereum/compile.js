@@ -128,9 +128,4 @@ console.log(input, "\n");
 const compiled = compileSources(input);
 handleError(compiled);
 console.log("compiled:\n", compiled, "\n");
-/* const bla = getImports('CloneFactry.sol');
-console.log(bla, "\n"); */
 toJSON(compiled, buildPath);
-
-
-
