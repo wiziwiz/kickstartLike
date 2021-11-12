@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Button, Card } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
-import web3 from '../ethereum/web3';
+import Layout from '../components/Layout';
+import { Link } from '../routes';
 
 class CampaignIndex extends Component 
 {
-    async componentDidMount() 
+    static async getInitialProps()
     {
         // we already deployed the CampaignFactory contract with the deply.js script.
         // Then we deployed a main Campaign contract and then a clone contract with the 
@@ -15,11 +17,52 @@ class CampaignIndex extends Component
         const masterContract = await factory.methods.getMasterContract().call();
         console.log('Main contract deployed at ', masterContract);
         console.log('campaigns: ', campaigns);
+
+        return { campaigns : campaigns, masterContract : masterContract};
     }
 
+    async componentDidMount() 
+    {
+        
+    }
+
+    renderCamapaigns()
+    {
+        const items = this.props.campaigns.map(address => {
+            return {
+                header: address,
+                description: (
+                    <Link route={`/campaigns/${address}`}>
+                        <a>View Campaign</a>
+                    </Link>
+                ),
+                fluid: true
+            }
+        });
+        return <Card.Group items={items} />;
+    }
+
+    // link tag allow the route stuff
+    // anker tag allows link to be clicked...
     render()
     {
-        return <div>index</div>
+        return (
+            <Layout>
+                <div>
+                    <h3>Open Campaigns</h3>
+                    <Link route= "/campaigns/new">
+                        <a>
+                            <Button floated="right"
+                                content="Create Campaign"
+                                icon="add circle"
+                                primary = {true}
+                            />
+                        </a>
+                    </Link>
+                    {this.renderCamapaigns()}
+                </div>
+            </Layout>
+        );
     }
 }
 

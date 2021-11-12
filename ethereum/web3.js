@@ -1,17 +1,39 @@
 import Web3 from "web3";
- 
-let web3;
- 
-if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+
+let readonly;
+let sender;
+
+if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") 
+{
   // We are in the browser and metamask is running.
   window.ethereum.request({ method: "eth_requestAccounts" });
-  web3 = new Web3(window.ethereum);
-} else {
+  readonly = new Web3(window.ethereum);
+  sender = readonly;
+} 
+else 
+{
+  let provider;
   // We are on the server *OR* the user is not running metamask
-  const provider = new Web3.providers.HttpProvider(
-    "https://rinkeby.infura.io/v3/3b24264d9853482393d129198e549835"
+  const mnemonic = '';
+  const rinkeby = '';
+
+  provider = new HDWalletProvider(
+      mnemonic,
+      rinkeby
   );
-  web3 = new Web3(provider);
+  sender = new Web3(provider);
+
+  provider = new Web3.providers.HttpProvider(
+    rinkeby
+  );
+  readonly = new Web3(provider);
 }
- 
+
+const web3 = {
+  readonly: readonly,
+  sender: sender
+};
+
+
 export default web3;
