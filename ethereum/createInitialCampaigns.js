@@ -1,18 +1,17 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require('web3');
+const Globs = require('./globalVars');
 
-const mnemonic = '';
-const rinkeby = '';
 
 const provider = new HDWalletProvider(
-    mnemonic,
-    rinkeby
+    Globs.mnemonic,
+    Globs.rinkeby
 );
 
 const web3 = new Web3(provider);
 
 const CampaignFactory = require('./contracts/build/CompainFactory.json');
-const contractAddress = '0x57f7F8A268e20c9F54A7052eF3ad5009E907A700';
+const contractAddress = '0xFe53b083418beE4eD52d3ae9e5Ccb4485a8A9852';//'0x57f7F8A268e20c9F54A7052eF3ad5009E907A700';
 
 const factory = new web3.eth.Contract(
     CampaignFactory.abi,
@@ -35,9 +34,9 @@ const deploy = async () => {
     masterContract = await factory.methods.getMasterContract().call();
     console.log('main contract : ', masterContract);
     // clone campaign
-    await factory.methods.createCampaign('100').send({ gas: '2500000', gasPrice: '5000000000', from: accounts[0] });
-    const campaigns = await factory.methods.getDeployedCampaigns().call();
-    console.log('campaigns: ', campaigns);
+    // await factory.methods.createCampaign('100').send({ gas: '2500000', gasPrice: '5000000000', from: accounts[0] });
+    // const campaigns = await factory.methods.getDeployedCampaigns().call();
+    // console.log('campaigns: ', campaigns);
   }
   else{
     console.log("Main campaign already created. ", masterContract);

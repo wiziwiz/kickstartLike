@@ -124,6 +124,24 @@ contract Campaign
         req.recipient.transfer(req.value);
         req.complete = true;
     }
+
+    function getSummary() public view returns(
+        uint, uint, uint, uint, address
+    )
+    {
+        return (
+            minimumContribution,
+            address(this).balance,
+            requestNb,
+            approversCount,
+            manager
+        );
+    }
+
+    function getRequestsCount() public view returns (uint)
+    {
+        return requestNb;
+    }
 }
 
 
